@@ -3,9 +3,6 @@ d=sql.connect(host="localhost",user="root",password="root",database="hotel")
 if d.is_connected:
     c=d.cursor()
     c.execute("use hotel ;")
-    guest_ids = []
-    c.execute("SELECT id FROM guests")
-    guest_ids = [row[0] for row in c.fetchall()]
 
 
     def thanks():
@@ -23,8 +20,17 @@ if d.is_connected:
             print("ENTER A NUMBER ")
             print()
             gid=eval(input("Enter the guest number : "))
-        while gid in guest_ids:
-            next_id = max(guest_ids) + 1 if guest_ids else 1
+        while True:
+            c.execute("SELECT id FROM guests WHERE id = {}".format(gid))
+            if c.fetchone() is None:
+                break
+
+            c.execute("SELECT MAX(id) FROM guests")
+            next_id = c.fetchone()[0]
+            if next_id is None:
+                next_id = 0
+            next_id = next_id + 1
+
             print()
             print("THIS ID HAS ALREADY BEEN ENTERED")
             print("THE NEXT ID TO BE ENTERED IS :", next_id)
@@ -60,7 +66,6 @@ if d.is_connected:
         s="insert into guests values ({},'{}','{}','{}','{}','{}',{})".format(gid,fn,ln,ph,e,date,tday)
         c.execute(s)
         d.commit()
-        guest_ids.append(gid)
 
         print("SUCCESFULLY ADDED DATAS")
     
