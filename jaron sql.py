@@ -312,287 +312,311 @@ if d.is_connected:
 
 
     def update():
-        from datetime import date
+        try:
+            from datetime import date
 
-        options = {
-            "1": "ID",
-            "2": "FIRST NAME",
-            "3": "LAST NAME",
-            "4": "PHONE NUMBER",
-            "5": "EMAIL",
-            "6": "DATE",
-            "7": "NO. OF DAYS STAYED"
-        }
+            print("\nWHAT DO YOU WANT TO UPDATE?")
+            print("1. ID")
+            print("2. FIRST NAME")
+            print("3. LAST NAME")
+            print("4. PHONE NUMBER")
+            print("5. EMAIL")
+            print("6. DATE")
+            print("7. NO. OF DAYS STAYED")
+            print("8. GO BACK\n")
 
-        fields = {
-            "1": "id", "id": "id",
-            "2": "first_name", "first name": "first_name",
-            "3": "last_name", "last name": "last_name",
-            "4": "phone_no", "phone": "phone_no", "phone number": "phone_no",
-            "5": "email",
-            "6": "entry_date", "date": "entry_date",
-            "7": "total_days", "total days": "total_days"
-        }
-
-        print("\nWHAT DO YOU WANT TO UPDATE?")
-        for number, label in options.items():
-            print(number + ". " + label)
-        print("8. GO BACK")
-        print()
-
-        update_choice = input("ENTER WHAT TO UPDATE: ").strip().lower()
-
-        while update_choice=="":
-            print("PLEASE ENTER A VALUE")
-            print()
             update_choice = input("ENTER WHAT TO UPDATE: ").strip().lower()
-            
-        if update_choice in {"8", "exit", "back", "go back"}:
-            ini()
-            return
 
-        update_column = fields.get(update_choice)
-
-        if update_column is None:
-            print("ENTER A VALID INPUT")
-            return
-
-        if update_column in {"id", "total_days"}:
-            try:
-                new_value = int(input("ENTER THE NEW VALUE: ").strip())
-            except ValueError:
-                print("ENTER A NUMBER")
+            if update_choice == "8" or update_choice == "exit" or update_choice == "back" or update_choice == "go back":
+                ini()
                 return
 
-        elif update_column == "entry_date":
-            try:
+            if update_choice == "1" or update_choice == "id":
+                update_column = "id"
+            elif update_choice == "2" or update_choice == "first name":
+                update_column = "first_name"
+            elif update_choice == "3" or update_choice == "last name":
+                update_column = "last_name"
+            elif update_choice == "4" or update_choice == "phone" or update_choice == "phone number":
+                update_column = "phone_no"
+            elif update_choice == "5" or update_choice == "email":
+                update_column = "email"
+            elif update_choice == "6" or update_choice == "date":
+                update_column = "entry_date"
+            elif update_choice == "7" or update_choice == "total days":
+                update_column = "total_days"
+            else:
+                print("ENTER A VALID INPUT")
+                raise ValueError("Invalid input")
+
+            if update_column == "id" or update_column == "total_days":
+                new_value = int(input("ENTER THE NEW VALUE: ").strip())
+
+            elif update_column == "entry_date":
                 yr = int(input("Enter the year: "))
                 mo = int(input("Enter the month: "))
                 day = int(input("Enter the day: "))
                 new_value = date(yr, mo, day)
-            except ValueError:
-                print("PLEASE ENTER A VALID DATE")
+
+            else:
+                new_value = input("ENTER THE NEW VALUE: ").strip()
+
+                if update_column == "first_name" or update_column == "last_name":
+                    new_value = new_value.upper()
+                elif update_column == "email":
+                    new_value = new_value.lower()
+
+            print("\nSEARCH FOR THE GUEST BY:")
+            print("1. ID")
+            print("2. NAME")
+            print("3. PHONE NUMBER")
+            print("4. EMAIL")
+            print("5. DATE")
+            print("6. NO. OF DAYS STAYED")
+            print("7. GO BACK\n")
+
+            search_choice = input("ENTER WHAT TO SEARCH BY: ").strip().lower()
+
+            if search_choice == "7" or search_choice == "exit" or search_choice == "back" or search_choice == "go back":
+                ini()
                 return
 
-        else:
-            new_value = input("ENTER THE NEW VALUE: ").strip()
+            if search_choice == "1" or search_choice == "id":
+                search_column = "id"
+            elif search_choice == "2" or search_choice == "name":
+                print("\nSEARCH USING:")
+                print("1. FIRST NAME")
+                print("2. LAST NAME")
+                name_choice = input("ENTER YOUR CHOICE: ").strip().lower()
 
-            if update_column in {"first_name", "last_name"}:
-                new_value = new_value.upper()
-            elif update_column == "email":
-                new_value = new_value.lower()
+                if name_choice == "1" or name_choice == "first" or name_choice == "first name":
+                    search_column = "first_name"
+                elif name_choice == "2" or name_choice == "last" or name_choice == "last name":
+                    search_column = "last_name"
+                else:
+                    print("ENTER A VALID INPUT")
+                    raise ValueError("Invalid input")
+            elif search_choice == "3" or search_choice == "phone" or search_choice == "phone number":
+                search_column = "phone_no"
+            elif search_choice == "4" or search_choice == "email":
+                search_column = "email"
+            elif search_choice == "5" or search_choice == "date":
+                search_column = "entry_date"
+            elif search_choice == "6" or search_choice == "total days":
+                search_column = "total_days"
+            else:
+                print("ENTER A VALID INPUT")
+                raise ValueError("Invalid input")
 
-        print("\nSEARCH FOR THE GUEST BY:")
-        for number, label in options.items():
-            print(number + ". " + label)
-        print("8. GO BACK")
-        print()
-
-        search_choice = input("ENTER WHAT TO SEARCH BY: ").strip().lower()
-
-        if search_choice in {"8", "exit", "back", "go back"}:
-            ini()
-            return
-
-        search_column = fields.get(search_choice)
-
-        if search_column is None:
-            print("ENTER A VALID INPUT")
-            return
-
-        if search_column in {"id", "total_days"}:
-            try:
+            if search_column == "id" or search_column == "total_days":
                 search_value = int(input("ENTER THE VALUE TO SEARCH WITH: ").strip())
-            except ValueError:
-                print("ENTER A NUMBER")
-                return
 
-        elif search_column == "entry_date":
-            try:
+            elif search_column == "entry_date":
                 yr = int(input("Enter the year to search with: "))
                 mo = int(input("Enter the month to search with: "))
                 day = int(input("Enter the day to search with: "))
                 search_value = date(yr, mo, day)
-            except ValueError:
-                print("PLEASE ENTER A VALID DATE")
+
+            else:
+                search_value = input("ENTER THE VALUE TO SEARCH WITH: ").strip()
+
+                if search_column == "first_name" or search_column == "last_name":
+                    search_value = search_value.upper()
+                elif search_column == "email":
+                    search_value = search_value.lower()
+
+            s = "SELECT * FROM guests WHERE `{}` = %s".format(search_column)
+            c.execute(s, (search_value,))
+            data = c.fetchall()
+
+            if len(data) == 0:
+                print("\nNO DATA FOUND")
                 return
 
-        else:
-            search_value = input("ENTER THE VALUE TO SEARCH WITH: ").strip()
+            print("\nDATA FOUND:")
+            for row in data:
+                print(row)
 
-            if search_column in {"first_name", "last_name"}:
-                search_value = search_value.upper()
-            elif search_column == "email":
-                search_value = search_value.lower()
+            s = "UPDATE guests SET `{}` = %s WHERE `{}` = %s".format(
+                update_column, search_column
+            )
+            c.execute(s, (new_value, search_value))
+            d.commit()
 
-        s = "SELECT * FROM guests WHERE `{}` = %s".format(search_column)
-        c.execute(s, (search_value,))
-        data = c.fetchall()
+            print("\nSUCCESSFULLY UPDATED DATA")
 
-        if len(data) == 0:
-            print("\nNO DATA FOUND")
-            return
+            display_value = new_value if update_column == search_column else search_value
+            s = "SELECT * FROM guests WHERE `{}` = %s".format(search_column)
+            c.execute(s, (display_value,))
+            data = c.fetchall()
 
-        print("\nDATA FOUND:")
-        for row in data:
-            print(row)
+            for row in data:
+                print(row)
+        except Exception:
+            print("\nOOPS!!")
+            print("AN ERROR HAS OCCURRED")
+            print("1. YES")
+            print("2. NO")
+            print()
+            answer = input("DO YOU WANT TO CONTINUE : ").strip().lower()
 
-        s = "UPDATE guests SET `{}` = %s WHERE `{}` = %s".format(
-            update_column, search_column
-        )
-        c.execute(s, (new_value, search_value))
-        d.commit()
+            if answer == "1" or answer == "yes":
+                update()
 
-        print("\nSUCCESSFULLY UPDATED DATA")
-
-        display_value = new_value if update_column == search_column else search_value
-        s = "SELECT * FROM guests WHERE `{}` = %s".format(search_column)
-        c.execute(s, (display_value,))
-        data = c.fetchall()
-
-        for row in data:
-            print(row)
-
-
-     
     def delete():
-        from datetime import date
+        try:
+            from datetime import date
 
-        options = {
-            "1": "ID",
-            "2": "FIRST NAME",
-            "3": "LAST NAME",
-            "4": "PHONE NUMBER",
-            "5": "EMAIL",
-            "6": "DATE",
-            "7": "NO. OF DAYS STAYED"
-        }
+            print("\nWHAT DO YOU WANT TO DELETE?")
+            print("1. ID")
+            print("2. FIRST NAME")
+            print("3. LAST NAME")
+            print("4. PHONE NUMBER")
+            print("5. EMAIL")
+            print("6. DATE")
+            print("7. NO. OF DAYS STAYED")
+            print("8. GO BACK\n")
 
-        fields = {
-            "1": "id", "id": "id",
-            "2": "first_name", "first name": "first_name",
-            "3": "last_name", "last name": "last_name",
-            "4": "phone_no", "phone": "phone_no", "phone number": "phone_no",
-            "5": "email",
-            "6": "entry_date", "date": "entry_date",
-            "7": "total_days", "total days": "total_days"
-        }
+            delete_choice = input("ENTER WHAT TO DELETE: ").strip().lower()
 
-        print("\nWHAT DO YOU WANT TO DELETE?")
-        for number, label in options.items():
-            print(number + ". " + label)
-        print("8. GO BACK")
-        print()
-
-        delete_choice = input("ENTER WHAT TO DELETE: ").strip().lower()
-
-        if delete_choice in {"8", "exit", "back", "go back"}:
-            ini()
-            return
-
-        delete_column = fields.get(delete_choice)
-
-        if delete_column is None:
-            print("ENTER A VALID INPUT")
-            return
-
-        if delete_column in {"id", "total_days"}:
-            try:
-                delete_value = int(input("ENTER THE VALUE OF THIS FIELD: ").strip())
-            except ValueError:
-                print("ENTER A NUMBER")
+            if delete_choice == "8" or delete_choice == "exit" or delete_choice == "back" or delete_choice == "go back":
+                ini()
                 return
 
-        elif delete_column == "entry_date":
-            try:
+            if delete_choice == "1" or delete_choice == "id":
+                delete_column = "id"
+            elif delete_choice == "2" or delete_choice == "first name":
+                delete_column = "first_name"
+            elif delete_choice == "3" or delete_choice == "last name":
+                delete_column = "last_name"
+            elif delete_choice == "4" or delete_choice == "phone" or delete_choice == "phone number":
+                delete_column = "phone_no"
+            elif delete_choice == "5" or delete_choice == "email":
+                delete_column = "email"
+            elif delete_choice == "6" or delete_choice == "date":
+                delete_column = "entry_date"
+            elif delete_choice == "7" or delete_choice == "total days":
+                delete_column = "total_days"
+            else:
+                print("ENTER A VALID INPUT")
+                raise ValueError("Invalid input")
+
+            if delete_column == "id" or delete_column == "total_days":
+                delete_value = int(input("ENTER THE VALUE OF THIS FIELD: ").strip())
+
+            elif delete_column == "entry_date":
                 delete_value = date.fromisoformat(
                     input("ENTER THE DATE (YYYY-MM-DD): ").strip()
                 )
-            except ValueError:
-                print("PLEASE ENTER A VALID DATE AS YYYY-MM-DD")
+
+            else:
+                delete_value = input("ENTER THE VALUE OF THIS FIELD: ").strip()
+
+                if delete_column == "first_name" or delete_column == "last_name":
+                    delete_value = delete_value.upper()
+                elif delete_column == "email":
+                    delete_value = delete_value.lower()
+
+            print("\nSEARCH FOR THE RECORD USING:")
+            print("1. ID")
+            print("2. NAME")
+            print("3. PHONE NUMBER")
+            print("4. EMAIL")
+            print("5. DATE")
+            print("6. NO. OF DAYS STAYED")
+            print("7. GO BACK\n")
+
+            search_choice = input("ENTER WHAT TO SEARCH BY: ").strip().lower()
+
+            if search_choice == "7" or search_choice == "exit" or search_choice == "back" or search_choice == "go back":
+                ini()
                 return
 
-        else:
-            delete_value = input("ENTER THE VALUE OF THIS FIELD: ").strip()
+            if search_choice == "1" or search_choice == "id":
+                search_column = "id"
+            elif search_choice == "2" or search_choice == "name":
+                print("\nSEARCH USING:")
+                print("1. FIRST NAME")
+                print("2. LAST NAME")
+                name_choice = input("ENTER YOUR CHOICE: ").strip().lower()
 
-            if delete_column in {"first_name", "last_name"}:
-                delete_value = delete_value.upper()
-            elif delete_column == "email":
-                delete_value = delete_value.lower()
+                if name_choice == "1" or name_choice == "first" or name_choice == "first name":
+                    search_column = "first_name"
+                elif name_choice == "2" or name_choice == "last" or name_choice == "last name":
+                    search_column = "last_name"
+                else:
+                    print("ENTER A VALID INPUT")
+                    raise ValueError("Invalid input")
+            elif search_choice == "3" or search_choice == "phone" or search_choice == "phone number":
+                search_column = "phone_no"
+            elif search_choice == "4" or search_choice == "email":
+                search_column = "email"
+            elif search_choice == "5" or search_choice == "date":
+                search_column = "entry_date"
+            elif search_choice == "6" or search_choice == "total days":
+                search_column = "total_days"
+            else:
+                print("ENTER A VALID INPUT")
+                raise ValueError("Invalid input")
 
-        print("\nSEARCH FOR THE RECORD USING:")
-        for number, label in options.items():
-            print(number + ". " + label)
-        print("8. GO BACK")
-        print()
-
-        search_choice = input("ENTER WHAT TO SEARCH BY: ").strip().lower()
-
-        if search_choice in {"8", "exit", "back", "go back"}:
-            ini()
-            return
-
-        search_column = fields.get(search_choice)
-
-        if search_column is None:
-            print("ENTER A VALID INPUT")
-            return
-
-        if search_column in {"id", "total_days"}:
-            try:
+            if search_column == "id" or search_column == "total_days":
                 search_value = int(input("ENTER THE VALUE TO SEARCH WITH: ").strip())
-            except ValueError:
-                print("ENTER A NUMBER")
-                return
 
-        elif search_column == "entry_date":
-            try:
+            elif search_column == "entry_date":
                 search_value = date.fromisoformat(
                     input("ENTER THE DATE TO SEARCH WITH (YYYY-MM-DD): ").strip()
                 )
-            except ValueError:
-                print("PLEASE ENTER A VALID DATE AS YYYY-MM-DD")
+
+            else:
+                search_value = input("ENTER THE VALUE TO SEARCH WITH: ").strip()
+
+                if search_column == "first_name" or search_column == "last_name":
+                    search_value = search_value.upper()
+                elif search_column == "email":
+                    search_value = search_value.lower()
+
+            s = "SELECT * FROM guests WHERE `{}` = %s AND `{}` = %s".format(
+                delete_column, search_column
+            )
+            c.execute(s, (delete_value, search_value))
+            data = c.fetchall()
+
+            if len(data) == 0:
+                print("\nNO DATA FOUND")
                 return
 
-        else:
-            search_value = input("ENTER THE VALUE TO SEARCH WITH: ").strip()
+            print("\nRECORD FOUND:")
+            for row in data:
+                print(row)
 
-            if search_column in {"first_name", "last_name"}:
-                search_value = search_value.upper()
-            elif search_column == "email":
-                search_value = search_value.lower()
+            if len(data) > 1:
+                print("MORE THAN ONE RECORD WAS FOUND. SEARCH USING ID TO DELETE ONE RECORD.")
+                return
 
-        s = "SELECT * FROM guests WHERE `{}` = %s AND `{}` = %s".format(
-            delete_column, search_column
-        )
-        c.execute(s, (delete_value, search_value))
-        data = c.fetchall()
+            confirm = input(
+                "ARE YOU SURE YOU WANT TO DELETE THIS RECORD? (YES/NO): "
+            ).strip().lower()
 
-        if len(data) == 0:
-            print("\nNO DATA FOUND")
-            return
+            if confirm != "yes" and confirm != "y" and confirm != "1":
+                print("DELETE CANCELLED")
+                return
 
-        print("\nRECORD FOUND:")
-        for row in data:
-            print(row)
+            s = "DELETE FROM guests WHERE `{}` = %s AND `{}` = %s".format(
+                delete_column, search_column
+            )
+            c.execute(s, (delete_value, search_value))
+            d.commit()
+            print("SUCCESSFULLY DELETED DATA")
+        except Exception:
+            print("\nOOPS!!")
+            print("AN ERROR HAS OCCURRED")
+            print("1. YES")
+            print("2. NO")
+            print()
+            answer = input("DO YOU WANT TO CONTINUE : ").strip().lower()
 
-        if len(data) > 1:
-            print("MORE THAN ONE RECORD WAS FOUND. SEARCH USING ID TO DELETE ONE RECORD.")
-            return
-
-        confirm = input("ARE YOU SURE YOU WANT TO DELETE THIS RECORD? (YES/NO): ").strip().lower()
-
-        if confirm not in {"yes", "y", "1"}:
-            print("DELETE CANCELLED")
-            return
-
-        s = "DELETE FROM guests WHERE `{}` = %s AND `{}` = %s".format(
-            delete_column, search_column
-        )
-        c.execute(s, (delete_value, search_value))
-        d.commit()
-        print("SUCCESSFULLY DELETED DATA")
-
+            if answer == "1" or answer == "yes":
+                delete()
 
     def ini():
         ans=True
