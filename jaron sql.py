@@ -15,7 +15,26 @@ if d.is_connected:
 
     def insert():
         try:
-            gid=eval(input("Enter the guest number : "))
+            c.execute("SELECT MAX(id) FROM guests")
+            next_id = c.fetchone()[0]
+            if next_id is None:
+                next_id = 0
+            next_id = next_id + 1
+            print("guest id : ",next_id)
+        except:
+            print("SOMETHING WENT WRONG !! /n")
+            print("TRY AGAIN /n")
+            print()
+            
+            c.execute("SELECT MAX(id) FROM guests")
+            next_id = c.fetchone()[0]
+            if next_id is None:
+                next_id = 0
+            next_id = next_id + 1
+            print("guest id : ",next_id)
+            
+            
+            """gid=eval(input("Enter the guest number : "))
         except NameError:
             print("ENTER A NUMBER ")
             print()
@@ -25,11 +44,7 @@ if d.is_connected:
             if c.fetchone() is None:
                 break
 
-            c.execute("SELECT MAX(id) FROM guests")
-            next_id = c.fetchone()[0]
-            if next_id is None:
-                next_id = 0
-            next_id = next_id + 1
+            
 
             print()
             print("THIS ID HAS ALREADY BEEN ENTERED")
@@ -39,11 +54,27 @@ if d.is_connected:
                 gid = int(input("Enter the guest number : "))
             except ValueError:
                 print("ENTER A NUMBER")
-                print()
+                print()"""
+            
         fn=input("Enter the first name  : ").upper().strip()
+        while fn=="":
+            print("ENTER A VALUE\n")
+            fn=input("Enter the first name  : ").upper().strip()
+            
         ln=input("Enter the last name   : ").upper().strip()
+        while ln=="":
+            print("ENTER A VALUE \n")
+            ln=input("Enter the last name   : ").upper().strip()
+            
         ph=input("Enter the phone number : ").upper().strip()
+        while ph=="":
+            print("ENTER A VALUE \n")
+            ph=input("Enter the phone number : ").upper().strip()
+            
         e=input("Enter the email : ").lower()
+        while e=="":
+            print("ENTER A VALUE \n")
+            e=input("Enter the email : ").lower()
         e.strip()
         
         #inputing date
@@ -63,9 +94,10 @@ if d.is_connected:
 
         tday=eval(input("Enter the number of days : "))
         
-        s="insert into guests values ({},'{}','{}','{}','{}','{}',{})".format(gid,fn,ln,ph,e,date,tday)
+        s="insert into guests values ({},'{}','{}','{}','{}','{}',{})".format(next_id,fn,ln,ph,e,date,tday)
         c.execute(s)
         d.commit()
+        print()
 
         print("SUCCESFULLY ADDED DATAS")
     
@@ -303,6 +335,7 @@ if d.is_connected:
             else:
                 for i in data :
                     print(i)
+                    print()
 
         #EXIT
         if v.lower()=="exit" or eval(v)==8:
