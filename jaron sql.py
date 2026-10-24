@@ -491,7 +491,8 @@ if d.is_connected:
             for row in data:
                 print(row)
         except Exception:
-            print("\nOOPS!!")
+            print()
+            print("OOPS!!")
             print("AN ERROR HAS OCCURRED")
             print("1. YES")
             print("2. NO")
